@@ -1,26 +1,34 @@
 import sqlite3
-import random
+
+connection = sqlite3.connect('FridayProj5.db')
+cursor = connection.cursor()
+
+def executeQuestions():
+    cursor.execute('SELECT * FROM QuestAns')
+    return cursor.fetchall()
+
+QNA = executeQuestions()
+
 Right = 0
 Wrong = 0
-print("Welcome to my Super Bowl Trivia!")
 
-Questions = {
-    'Will Travis Kelce score a touchdown?(Yes/No)':'Yes',
-    'Did Red, Blue, or Orange gatorade get dumped on the winning coach?' : 'Red',
-    'How many touchdowns did Patrick Mahomes throw for?' : '3',
-    'Was Taylor Swift shown atleast seven times on television?(Yes/No)':'Yes',
-    'How many receptions did Brandon Aiyuk have?':'6'
-    }
+print("Welcome to my Quiz Bowl!")
 
-for leg in Questions:
-    print(leg)
-    answer = input("Choose Wisely: ")
-    if answer == Questions[leg]:
-        print("Great Job your parlay is saved!")
-        Right +=1
-    else:
-        print("You busted your parlay and lost!")
-        Wrong +=1
-        print("The right choice is: ", Questions[leg])
+for row in QNA:
+    question = row[1]
+    answer = row[2]
+
+    print (question)
+    user_answer = input("Provide answer: ")
+
+if user_answer() == answer():
+    print("Great Answer! +1 point")
+    Right += 1
+else:
+    print("Incorrect! The answer is:", answer)
+    Wrong += 1
+
 
 print("Here are your final scoring totals (Right:Wrong) - ", Right ,":", Wrong ,)
+
+connection.close()
